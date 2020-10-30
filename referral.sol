@@ -40,7 +40,8 @@ contract refBook{
     address[] public referral;
     
     function createRef()public returns(address,uint){
-        
+        require(referral.length<=10001);
+        require(msg.value>1000000000000);
         Ref r=new Ref(msg.sender,referral.length+1);
         referral.push(address(r));
         return (address(r),referral.length);
