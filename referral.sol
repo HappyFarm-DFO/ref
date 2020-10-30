@@ -17,7 +17,16 @@ contract Ref{
         id=_id;
     }
     
-    function pull(address _tkn)public returns(address){
+    function pullETH(address _tkn)public returns(address){
+        ERC20 token=ERC20(_tkn);
+        uint bal=this.balance();
+        require(bal>=5);
+        payable(moduleCreator).transfer(bal/5);
+        payable(SmartShop).transfer(bal*3/5);
+        payable(ethrdb.ownerOf(id)).transfer(this.balance());
+    }
+    
+     function pullToken(address _tkn)public returns(address){
         ERC20 token=ERC20(_tkn);
         uint bal=token.balanceOf(address(this));
         require(bal>=5);
@@ -39,9 +48,10 @@ contract refBook{
     //list of referral contracts
     address[] public referral;
     
-    function createRef()public returns(address,uint){
+    function createRef(address _ref)public returns(address,uint){
         require(referral.length<=10001);
         require(msg.value>1000000000000);
+        payable(ref.id2address(_ref)).transfer(msg.value);
         Ref r=new Ref(msg.sender,referral.length+1);
         referral.push(address(r));
         return (address(r),referral.length);
