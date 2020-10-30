@@ -48,13 +48,23 @@ contract refBook{
     //list of referral contracts
     address[] public referral;
     
-    function createRef(address _ref)public returns(address,uint){
-        require(referral.length<=10001);
-        require(msg.value>1000000000000);
+    function createRef(address _ref,uint _amount)public returns(address,uint){
+        require(referral.length+_amount<10000);
+        require(msg.value>=1000000000000*_amount);
         payable(ref.id2address(_ref)).transfer(msg.value);
         Ref r=new Ref(msg.sender,referral.length+1);
+        for(uint i=0;i<_amount;i++)
         referral.push(address(r));
         return (address(r),referral.length);
+    }
+    
+    function createExRef(address _exref,address _ref,uint _amount)public returns(address,uint){
+        require(referral.length+_amount<10000);
+        require(msg.value>=1000000000000*_amount);
+        payable(ref.id2address(_ref)).transfer(msg.value);
+        for(uint i=0;i<_amount;i++)
+        referral.push(_exref);
+        return (_exref,referral.length);
     }
     
     function id2address(uint _id)public view returns(address){
