@@ -73,9 +73,13 @@ contract SmartWallet{
         _;
     }
     
-    function pull(address _token)public onlyController{
+    function pullToken(address _token)public onlyController{
          IERC20 token=IERC20(_token);
          token.transfer(msg.sender, token.balanceOf(address(this)));
+    }
+    
+       function pullETH()public onlyController{
+         payable(msg.sender).transfer(address(this).balance);
     }
 }
 
