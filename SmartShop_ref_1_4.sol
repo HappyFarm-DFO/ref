@@ -1,10 +1,10 @@
 pragma solidity ^0.7.4;
 
 contract ReferralFactory {
-    address public _collection;
     uint public amount=300;
     string public uri="ipfs://ipfs/QmNWWea25ankd8kxxaV9fjRhKbeMd5dBvGoHoCmw9xTyVU";
     address public HappyFarm=0xfa28ED428D54424D42ED4F71415315df2f2E49D6;
+    address public _collection;
     address[] public list;
     mapping(address => address)public badgeToSmartWallet;
     
